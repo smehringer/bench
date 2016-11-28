@@ -2,6 +2,8 @@
 #define BENCHMARK_HEADER_KMERS_KMER_COUNTING_BASE_H
 
 #include <iostream>
+#include <string>
+
 #include <seqan/align.h>
 #include <seqan/seq_io.h>
 #include <seqan/arg_parse.h>
@@ -65,7 +67,7 @@ inline void kmer_counting (TIndex & index, TString & genome, TOutputStream & cou
         auto firstPosition = getOccurrence(index, indexShape(index));
 
         if (i <= firstPosition && count >= 5u) {
-            cout << i << ": " <<  count << std::endl;
+            cout << infix(genome, i, i + kmerLength) << ": " <<  count << std::endl;
         }
 
         i++;
@@ -84,7 +86,6 @@ inline int benchmark_kmers_kmer_counting_main(std::string infoText, int argc, ch
     omp_set_num_threads(options.threads);
     #endif
 
-    typedef Backtracking<> TBacktracking;
     typedef Index<Dna5String, TIndexSpec > TIndex;
 
     // read in the genome
